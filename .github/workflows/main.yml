@@ -1,0 +1,32 @@
+name: Deploy andy-claw to VPS
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -e
+
+            cd /tmp
+            rm -rf andy-deploy
+            git clone https://github.com/a2026-oss/andy-claw.git andy-deploy
+
+            mkdir -p /srv/andy-claw/workspace
+            rsync -av --delete /tmp/andy-deploy/workspace/ /srv/andy-claw/workspace/
+
+            rm -rf /tmp/andy-deploy
+
+            cd /opt/openclaw
+            docker compose -p andy-claw --env-file /srv/andy-claw.env up -d
+            docker compose -p andy-claw --env-file /srv/andy-claw.env ps
+            docker logs --tail=50 andy-claw-openclaw-gateway-1
