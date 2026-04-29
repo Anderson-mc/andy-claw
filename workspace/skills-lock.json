@@ -6,6 +6,12 @@
       "sourceType": "github",
       "computedHash": "fc173a14ecea820739ea971bf81eddbf94e12ce99312fb83e55342724316c5dd"
     },
+    "alpaca-trading": {
+      "source": "lacymorrow/openclaw-alpaca-trading-skill",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "807ca78edda3acb7c14ddf2097a5294711e7e361368bc529d833783ef4689e4a"
+    },
     "kalshi-trader": {
       "source": "local",
       "sourceType": "local",
